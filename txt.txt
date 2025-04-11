@@ -1,0 +1,165 @@
+## **StackWave Project Samajhna & Banane Ka Tarika**  
+Yeh **StackWave ka SRS document** ek **detailed breakdown** deta hai ki kaise **Q&A + real-time code collaboration platform** kaam karega. 
+
+---
+
+### **Project Overview**  
+**📌 Goal:**  
+Ek **Stack Overflow-style Q&A forum** banayenge jo **real-time coding rooms** bhi support karega.  
+
+**📌 Tech Stack:**  
+- **Frontend:** React.js (Vite), Tailwind CSS  
+- **Backend:** Node.js, Express.js  
+- **Database:** MongoDB  
+- **Real-Time:** Socket.io  
+- **Auth:** JWT, Google/GitHub OAuth  
+- **Extra:** Markdown, AI Assistant (OpenAI API, optional)  
+
+---
+
+## **💡 Core Features**
+### **1️⃣ User Authentication (Auth)**
+✔ **JWT-based login/signup**  
+✔ **Google/GitHub OAuth** (optional)  
+✔ **User profile management** (avatar, reputation, badges, bio)  
+
+**🔹 Backend Routes:**
+```
+POST   /api/auth/signup        - Register✅
+POST   /api/auth/login         - Login (JWT)✅
+GET    /api/auth/me            - Get logged-in user✅
+```
+
+---
+
+### **2️⃣ Q&A Forum**
+✔ **Users questions post kar sakte hain** (Markdown support)  
+✔ **Answers likh sakte hain, edit/delete kar sakte hain**  
+✔ **Answers pe vote system**  
+✔ **Comment system**  
+
+**🔹 Backend Routes:**
+```
+GET    /api/questions          - Get all questions✅
+POST   /api/questions          - Create a question✅
+GET    /api/questions/:id      - Get one question✅
+PUT    /api/questions/:id      - Update question✅
+DELETE /api/questions/:id      - Delete question✅
+
+POST   /api/answers/:questionId        - Add answer✅
+PUT    /api/answers/:answerId          - Edit answer✅
+DELETE /api/answers/:answerId          - Delete answer
+POST   /api/answers/:answerId/vote     - Vote up/down
+```
+
+---
+
+### **3️⃣ Real-Time Collaboration (Code Editor & Chat)**
+✔ **Monaco/CodeMirror Editor**  
+✔ **Live code updates (WebSockets)**  
+✔ **Real-time chat**  
+✔ **Room link sharing**  
+✔ **Language switching (optional)**  
+
+**🔹 Backend Routes:**
+```
+POST   /api/rooms             - Create room
+GET    /api/rooms/:roomId     - Get room info
+```
+
+**🔹 WebSocket Events:**
+```
+joinRoom    - User joins code room
+codeChange  - Live code updates
+sendMessage - Real-time chat
+leaveRoom   - User leaves room
+```
+
+---
+
+### **4️⃣ AI Assistant (Optional)**
+✔ **Auto-generate answers / refactor code (OpenAI API)**  
+
+**🔹 Backend Route:**
+```
+POST   /api/ai/suggest  - AI-generated answer or refactor code
+```
+
+---
+
+### **5️⃣ Leaderboard & Gamification**
+✔ **Points & badges system**  
+✔ **Weekly/monthly leaderboard**  
+
+**🔹 Backend Routes:**
+```
+GET    /api/users/leaderboard  - Leaderboard data
+```
+
+---
+
+### **6️⃣ Admin Panel**
+✔ **Reported content manage karna**  
+✔ **Users ko block karna**  
+
+**🔹 Backend Routes:**
+```
+GET    /api/admin/reports           - View reports
+PUT    /api/admin/users/:id/block   - Block user
+```
+
+---
+
+## **📌 Database Models (MongoDB)**
+1. **User**
+   ```js
+   {
+      name, email, passwordHash, bio, avatar, reputation, badges, role
+   }
+   ```
+2. **Question**
+   ```js
+   {
+      title, body, tags, authorId, votes, createdAt
+   }
+   ```
+3. **Answer**
+   ```js
+   {
+      questionId, content, authorId, votes, createdAt
+   }
+   ```
+4. **Room**
+   ```js
+   {
+      roomId, language, participants[], codeContent, messages[]
+   }
+   ```
+
+---
+
+## **🎯 Ab Kya Karna Hai? (Step-by-Step Development Plan)**
+### **Step 1: Backend Setup**
+- **Express server setup karna**  
+- **Auth system (JWT) implement karna**  
+- **MongoDB models create karna**  
+
+### **Step 2: Frontend Auth Pages**
+- **Login & Signup pages design karna**  
+- **JWT-based authentication implement karna**  
+- **Protected routes setup karna**  
+
+### **Step 3: Q&A Forum**
+- **Questions list page & ask question form**  
+- **Answer section & voting system**  
+
+### **Step 4: Real-Time Code Rooms**
+- **Monaco Editor + WebSocket communication implement karna**  
+
+### **Step 5: Extra Features**
+- **Leaderboard, badges, admin panel, AI assistant**  
+
+---
+
+## **👀 Next Step Kya Karein?**
+Pehle **Backend ka Auth system** implement karein? Ya pehle **React ka setup karein?**

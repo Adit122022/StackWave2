@@ -1,0 +1,149 @@
+import { useState } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare, User } from "lucide-react";
+import AuthImagePattern from '../Others/AuthImagesPattern';
+
+const Login = () => {
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSigningUp, setIsSigningUp] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState('');
+
+  const handleSubmit  = async (e) => {
+    e.preventDefault();
+
+
+    console.log(formData)
+    if (!formData.email || !formData.password) {
+      return setError('All fields are required');
+    }
+    
+    setIsSigningUp(true);
+    try {
+      const res = await axios.post('http://localhost:5000/api/auth/login', formData);
+       console.log(res.data)
+      const { token } = res.data;
+      localStorage.setItem('token', token);
+      navigate('/');
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.message || 'Login failed');
+    } finally {
+      setIsSigningUp(false);
+    }
+    
+  };
+
+  return <div className="min-h-screen grid lg:grid-cols-2">
+  {/* left side */}
+  <div className="flex flex-col justify-center items-center p-6 sm:p-12">
+    <div className="w-full max-w-md space-y-8">
+      {/* LOGO */}
+      <div className="text-center mb-8">
+        <div className="flex flex-col items-center gap-2 group">
+          <div
+            className="size-12 rounded-xl bg-accent/10 flex items-center justify-center 
+          group-hover:bg-primary/20 transition-colors"
+          >
+            <MessageSquare className="size-6 text-accent" />
+          </div>
+          <h1 className="text-2xl font-bold mt-2">Login Up</h1>
+          <p className="text-base-content/60">Get started with your free account</p>
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+      {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+
+
+        <div className="form-control ">
+          <label className="label">
+            <span className="label-text font-medium mb-3">Email</span>
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Mail className="size-5 text-base-content/40" />
+            </div>
+            <input
+              type="email"
+              className={`input input-bordered w-full sm:w-full pl-10 pr-4 border border-gray-300 rounded-lg
+             px-3 py-2 text-sm sm:text-base
+             focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent`}
+              placeholder="you@example.com"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            />
+          </div>
+        </div>
+
+        <div className="form-control ">
+          <label className="label">
+            <span className="label-text font-medium mb-3">Password</span>
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Lock className="size-5 text-base-content/40" />
+            </div>
+            <input
+              type={showPassword ? "text" : "password"}
+              className={`input input-bordered w-full sm:w-full pl-10 pr-4 border border-gray-300 rounded-lg
+             px-3 py-2 text-sm sm:text-base
+             focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent`}
+              placeholder="••••••••"
+              value={formData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            />
+            <button
+              type="button"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <EyeOff className="size-5 text-base-content/40" />
+              ) : (
+                <Eye className="size-5 text-base-content/40" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" className="btn btn-primary w-full" disabled={isSigningUp}>
+         
+         
+          {isSigningUp ? (
+            <>
+              <Loader2 className="size-5 animate-spin" />
+              Loading...
+            </>
+          ) : (
+            "Create Account"
+          )}
+        </button>
+      </form>
+{/*  Already have an account? */}
+      <div className="text-center">
+        <p className="text-base-content/60">
+          Already have an account?{" "}
+          <Link to="/login" className="link link-primary">
+            Sign in
+          </Link>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {/* right side */}
+
+  <AuthImagePattern
+    title="Welcome to DevHub"
+    subtitle="Share your ideas, connect with people, and grow your network in a space made for developers and creators."
+  />
+</div>
+};
+
+export default Login;
