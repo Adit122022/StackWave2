@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Navbar from '../../Others/Navbar';
 import SearchBar from '../../Others/SearchBar';
 
 const Home = () => {
@@ -48,9 +47,7 @@ const Home = () => {
 
   return (
     <div>
-      <div className="w-screen h-16 bg-white shadow-md">
-        <Navbar />
-      </div>
+     
 
       <div className="p-6 max-w-5xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">

@@ -1,9 +1,12 @@
 import React from 'react'
 import AppRoute from './Routes/AppRoute'
+import Navbar from './components/Navbar'
 
 const App = () => {
   return (
-   <AppRoute/>
+    <div  className='w-screen h-screen'>
+     <AppRoute/>
+     </div>
   )
 }
 
