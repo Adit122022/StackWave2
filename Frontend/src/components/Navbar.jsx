@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 const Navbar = () => {
-  const isLoggedIn = !!localStorage.getItem('token');
+  const isLoggedIn = localStorage.getItem('token');
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 

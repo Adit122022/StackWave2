@@ -4,7 +4,7 @@ import Navbar from './components/Navbar'
 
 const App = () => {
   return (
-    <div  className='w-screen h-screen'>
+    <div  className='w-screen h-screen overflow-hidden'>
      <AppRoute/>
      </div>
   )

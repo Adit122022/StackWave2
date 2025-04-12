@@ -85,7 +85,7 @@ module.exports.voteAnswer = async (req, res) => {
         existingVote.voteType = type;
       } else {
         // New vote
-        answer.votes += type === 'up' ? 1 : -1;
+        answer.votes += type === 'up' ? 0: -1;
         answer.votedUsers.push({ userId, type});
       }
   
