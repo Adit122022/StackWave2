@@ -12,8 +12,8 @@ import {
   
   export const SideBarPart = () => {
     return (
-      <div className="h-screen">
-        <Sidebar className="h-full  shadow-md">
+     
+        <Sidebar className="h-screen  shadow-md">
           <Menu className='pt-10  h-full !bg-accent-foreground hover:bg-accent-content hover:text-black'
             menuItemStyles={{
               button: ({ active }) => ({
@@ -78,7 +78,6 @@ import {
             </MenuItem>
           </Menu>
         </Sidebar>
-      </div>
     );
   };
   

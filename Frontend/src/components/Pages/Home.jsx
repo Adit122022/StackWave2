@@ -48,7 +48,7 @@ const Home = () => {
   };
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
+    <div className="p-6 max-w-5xl mx-auto overflow-y-auto h-screen">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">
         <h1 className="text-2xl font-bold">All Questions</h1>
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
@@ -86,7 +86,7 @@ const Home = () => {
       ) : (
         <div className="space-y-4">
           {filteredQuestions.map((q) => (
-            <Card key={q._id} className="hover:bg-muted/50 transition-colors">
+            <Card key={q._id} className="hover:!bg-slate-200 !bg-slate-400/30 transition-colors">
               <CardHeader>
                 <CardTitle>
                   <Link to={`/questions/${q._id}`} className="text-primary hover:underline">
@@ -97,7 +97,7 @@ const Home = () => {
               <CardContent>
                 <p className="text-muted-foreground line-clamp-2">{q.body}</p>
                 <div className="flex items-center justify-between mt-3 text-xs text-muted-foreground">
-                  <span>Asked by {q.author?.username || 'Anonymous'}</span>
+                  <span>Asked by {q.authorId?.name || 'Anonymous'}</span>
                   <span>{new Date(q.createdAt).toLocaleDateString()}</span>
                   <span>{q.answers?.length || 0} Answers</span>
                 </div>
