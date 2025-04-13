@@ -1,100 +1,136 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import SearchBar from '../../Others/SearchBar';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '../ui/card';
+import { Button } from '../ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
+import { Loader2 } from 'lucide-react';
+import SearchBar from '@/Others/SearchBar';
+import useSearchStore from '@/store/useSearch';
 
 const Home = () => {
-  const [questions, setQuestions] = useState([]);
-  const [filteredQuestions, setFilteredQuestions] = useState([]);
-  const [search, setSearch] = useState('');
+  const {
+    questions,
+    filteredQuestions,
+    query,
+    total,
+    from,
+    size,
+    isLoading,
+    isSearching,
+    error,
+    fetchQuestions,
+    search,
+    sortQuestions,
+    changePage,
+  } = useSearchStore();
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/questions')
-      .then(res => {
-        setQuestions(res.data);
-        setFilteredQuestions(res.data);
-      })
-      .catch(err => console.log(err));
-  }, []);
+    fetchQuestions();
+  }, [fetchQuestions]);
 
-  const handleSearch = async (value) => {
-    setSearch(value);
-
-    if (value.trim() === '') {
-      setFilteredQuestions(questions);
-      return;
-    }
-
-    try {
-      const res = await axios.get(`http://localhost:5000/api/search?q=${value}`);
-      setFilteredQuestions(res.data);
-    } catch (err) {
-      console.error('Search failed:', err);
-    }
+  const handleSearch = (value) => {
+    search(value, 0, size); // Reset to first page
   };
 
   const handleSort = (type) => {
-    const sorted = [...filteredQuestions];
-    if (type === 'latest') {
-      sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    } else if (type === 'a-z') {
-      sorted.sort((a, b) => a.title.localeCompare(b.title));
-    } else if (type === 'answers') {
-      sorted.sort((a, b) => (b.answers?.length || 0) - (a.answers?.length || 0));
-    }
-    setFilteredQuestions(sorted);
+    sortQuestions(type);
   };
 
   return (
-    <div>
-     
-
-      <div className="p-6 max-w-5xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">
-          <h1 className="text-2xl font-bold">All Questions</h1>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
-            <SearchBar value={search} onSearch={handleSearch} />
-            <select
-              onChange={(e) => handleSort(e.target.value)}
-              className="p-2 border border-gray-300 rounded"
-            >
-              <option value="latest">Sort by Latest</option>
-              <option value="a-z">Sort A-Z</option>
-              <option value="answers">Sort by Answers</option>
-            </select>
-            <Link
-              to="/ask"
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-center"
-            >
-              Ask Question
-            </Link>
-          </div>
+    <div className="p-6 max-w-5xl mx-auto">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">
+        <h1 className="text-2xl font-bold">All Questions</h1>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
+          <SearchBar value={query} onSearch={handleSearch} />
+          <Select onValueChange={handleSort} defaultValue="latest">
+            <SelectTrigger className="w-full sm:w-[180px]">
+              <SelectValue placeholder="Sort by" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="latest">Sort by Latest</SelectItem>
+              <SelectItem value="a-z">Sort A-Z</SelectItem>
+              <SelectItem value="answers">Sort by Answers</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button asChild>
+            <Link to="/ask">Ask Question</Link>
+          </Button>
         </div>
+      </div>
 
-        <p className="text-gray-600 mb-4">{filteredQuestions.length} questions found</p>
+      {error && (
+        <p className="text-destructive text-sm mb-4">{error}</p>
+      )}
 
+      <p className="text-muted-foreground mb-4">
+        {filteredQuestions.length} questions found
+      </p>
+
+      {isLoading ? (
+        <div className="flex justify-center">
+          <Loader2 className="size-8 animate-spin" />
+        </div>
+      ) : filteredQuestions.length === 0 ? (
+        <p className="text-center text-muted-foreground">No questions found.</p>
+      ) : (
         <div className="space-y-4">
-          {filteredQuestions.length === 0 ? (
-            <p className="text-center text-gray-500">No questions found.</p>
-          ) : (
-            filteredQuestions.map((q) => (
-              <Link
-                to={`/questions/${q._id}`}
-                key={q._id}
-                className="block p-4 bg-white shadow rounded hover:bg-blue-50 transition duration-200"
-              >
-                <h3 className="text-lg font-semibold text-gray-800">{q.title}</h3>
-                <p className="text-sm text-gray-600 mt-1 line-clamp-2">{q.body}</p>
-                <div className="flex items-center justify-between mt-3 text-xs text-gray-500">
+          {filteredQuestions.map((q) => (
+            <Card key={q._id} className="hover:bg-muted/50 transition-colors">
+              <CardHeader>
+                <CardTitle>
+                  <Link to={`/questions/${q._id}`} className="text-primary hover:underline">
+                    {q.title}
+                  </Link>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground line-clamp-2">{q.body}</p>
+                <div className="flex items-center justify-between mt-3 text-xs text-muted-foreground">
                   <span>Asked by {q.author?.username || 'Anonymous'}</span>
                   <span>{new Date(q.createdAt).toLocaleDateString()}</span>
                   <span>{q.answers?.length || 0} Answers</span>
                 </div>
-              </Link>
-            ))
-          )}
+              </CardContent>
+            </Card>
+          ))}
         </div>
-      </div>
+      )}
+
+      {total > size && (
+        <div className="mt-6 flex justify-center">
+          <div className="inline-flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => changePage(from - size)}
+              disabled={from === 0 || isSearching}
+            >
+              Previous
+            </Button>
+            <span className="flex items-center text-sm text-muted-foreground">
+              Page {Math.floor(from / size) + 1} of {Math.ceil(total / size)}
+            </span>
+            <Button
+              variant="outline"
+              onClick={() => changePage(from + size)}
+              disabled={from + size >= total || isSearching}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
