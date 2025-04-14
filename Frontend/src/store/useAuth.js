@@ -35,6 +35,7 @@ const useAuthStore = create(
         try {
           const response = await axiosInstance.post('/auth/signup', data);
           const { user, token } = response.data;
+          console.log(response.data)
           set({ authUser: user, token, isSigningUp: false });
           localStorage.setItem('token', token); // Sync with localStorage
           toast.success('Account created successfully');
@@ -42,8 +43,8 @@ const useAuthStore = create(
         } catch (error) {
           const message = error.response?.data?.message || 'Signup failed';
           set({ error: message, isSigningUp: false });
-          toast.error(message);
-          throw error;
+         return toast.error(message);
+          
         }
       },
 
@@ -61,27 +62,12 @@ const useAuthStore = create(
           const message = error.response?.data?.message || 'Login failed';
           set({ error: message, isLoggingIn: false });
           toast.error(message);
-          throw error;
+          
         }
       },
 
-      // Log out a user
-      logout: async () => {
-        set({ error: null });
-        try {
-          await axiosInstance.post('/auth/logout');
-          set({ authUser: null, token: null });
-          localStorage.removeItem('token');
-          toast.success('Logged out successfully');
-        } catch (error) {
-          const message = error.response?.data?.message || 'Logout failed';
-          set({ error: message });
-          toast.error(message);
-          throw error;
-        }
-      },
-
-      // Update user profile
+     
+   // Update user profile
       updateProfile: async (data) => {
         set({ isUpdatingProfile: true, error: null });
         try {
@@ -96,7 +82,6 @@ const useAuthStore = create(
           throw error;
         }
       },
-
       // Reset error state
       resetError: () => set({ error: null }),
     }),

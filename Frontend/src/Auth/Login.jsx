@@ -6,7 +6,7 @@ import AuthImagePattern from '../Others/AuthImagesPattern';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login, isLoggingIn, error, resetError } = useAuthStore();
+  const { login, isLoggingIn, error } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -18,33 +18,32 @@ const Login = () => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLocalError('');
-    resetError();
-
-    // Client-side validation
-    if (!formData.email || !formData.password) {
-      setLocalError('All fields are required');
-      return;
-    }
-    if (!validateEmail(formData.email)) {
-      setLocalError('Please enter a valid email address');
-      return;
-    }
-
-    try {
-      await login(formData);
-      navigate('/');
-    } catch (err) {
-      // Error is set in store; toast is handled by useAuthStore
-    }
+  const validateForm = () => {
+  
+    if (!formData.email.trim()) return toast.error("Email is required");
+  
+    if (!/\S+@\S+\.\S+/.test(formData.email))
+      return toast.error("Invalid email format");
+  
+    if (!formData.password) return toast.error("Password is required");
+  
+    if (formData.password.length < 6)
+      return toast.error("Password must be at least 6 characters");
+  
+    return true; // ✅ All checks passed
   };
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  const success=  validateForm()
+  if(success === true)  login(formData); 
+  navigate("/")
+}
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
       {/* Left side */}
-      <div className="flex flex-col justify-center items-center p-6 sm:p-12">
+      <div className="flex flex-col justify-top items-center p-6 sm:p-12">
         <div className="w-full max-w-md space-y-8">
           {/* LOGO */}
           <div className="text-center mb-8">
@@ -132,7 +131,7 @@ const Login = () => {
           <div className="text-center">
             <p className="text-base-content/60">
               Don’t have an account?{' '}
-              <Link to="/signup" className="text-primary hover:underline">
+              <Link to="/signup" className="text-blue-500 hover:underline">
                 Sign up
               </Link>
             </p>

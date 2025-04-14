@@ -17,6 +17,8 @@ import {
 import { Loader2 } from 'lucide-react';
 import SearchBar from '@/Others/SearchBar';
 import useSearchStore from '@/store/useSearch';
+import RotatingText from '../ui/ReactBIt/Rotatedtext';
+import Particles from '../ui/ReactBIt/Particles';
 
 const Home = () => {
   const {
@@ -48,11 +50,11 @@ const Home = () => {
   };
 
   return (
-    <div className="p-6 max-w-5xl mx-auto overflow-y-auto h-screen">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">
-        <h1 className="text-2xl font-bold">All Questions</h1>
+    <div className="p-6 max-w-5xl mx-auto overflow-y-auto w-full z-[99] h-screen  relative">
+        <h1 className="text-2xl font-bold mb-5 text-center">All Questions</h1>
+      <div className="md:flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
-          <SearchBar value={query} onSearch={handleSearch} />
+          <div className='w-1/2 flex'>
           <Select onValueChange={handleSort} defaultValue="latest">
             <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue placeholder="Sort by" />
@@ -64,18 +66,22 @@ const Home = () => {
             </SelectContent>
           </Select>
           <Button asChild>
-            <Link to="/ask">Ask Question</Link>
+            <Link className='px-5 py-2  text-sm' to="/ask">Ask Question</Link>
           </Button>
+          </div>
         </div>
       </div>
 
-      {error && (
+     <div className='md:flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4'>
+     {error && (
         <p className="text-destructive text-sm mb-4">{error}</p>
       )}
 
-      <p className="text-muted-foreground mb-4">
+     <p className="text-muted-foreground mb-4">
         {filteredQuestions.length} questions found
       </p>
+     </div>
+    
 
       {isLoading ? (
         <div className="flex justify-center">
@@ -86,12 +92,13 @@ const Home = () => {
       ) : (
         <div className="space-y-4">
           {filteredQuestions.map((q) => (
-            <Card key={q._id} className="hover:!bg-slate-200 !bg-slate-400/30 transition-colors">
+            <Card key={q._id} className="hover:!bg-slate-200/30 !bg-slate-300/30 transition-colors">
               <CardHeader>
                 <CardTitle>
-                  <Link to={`/questions/${q._id}`} className="text-primary hover:underline">
+                  <Link to={`/questions/${q._id}`} className="text-primary hover:underline font-bold uppercase">
                     {q.title}
                   </Link>
+                  <span>{console.log(q.answers)} </span>
                 </CardTitle>
               </CardHeader>
               <CardContent>

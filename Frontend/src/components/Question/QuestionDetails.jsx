@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { ThumbsDown, ThumbsUp } from 'lucide-react';
 
 const QuestionDetail = () => {
   const { id } = useParams();
@@ -69,13 +70,14 @@ const QuestionDetail = () => {
   if (!question) return <div>Loading...</div>;
 
   return (
-    <div className="p-4">
+    <div className="flex  relative z-[99] justify-center items-center w-full">
+      <div className="p-4 ">
       <h1 className="text-2xl font-bold">{question.title}</h1>
       <p className="text-gray-600">{question.body}</p>
 
       <h2 className="mt-6 text-xl font-semibold">Answers</h2>
       {question.answers.map((ans) => (
-  <div key={ans._id} className="border p-3 my-2 rounded bg-white">
+  <div key={ans._id} className="border p-3 my-2 rounded ">
     <p>{ans.content}</p>
 
     <div className="flex items-center gap-3 mt-2">
@@ -83,14 +85,14 @@ const QuestionDetail = () => {
         onClick={() => vote(ans._id, 'up')}
         className="px-2 py-1 bg-green-600 text-white rounded"
       >
-        Upvote
+       <ThumbsUp />
       </button>
       <span className="text-sm">{ans.votes || 0} votes</span>
       <button
         onClick={() => vote(ans._id, 'down')}
         className="px-2 py-1 bg-red-600 text-white rounded"
       >
-        Downvote
+      <ThumbsDown />
       </button>
     </div>
 
@@ -117,6 +119,7 @@ const QuestionDetail = () => {
           {loading ? 'Submitting...' : 'Submit Answer'}
         </button>
       </form>
+    </div>
     </div>
   );
 };

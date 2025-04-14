@@ -4,45 +4,48 @@ import { useNavigate ,Link } from 'react-router-dom';
 
 import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare, User } from "lucide-react";
 import AuthImagePattern from '../Others/AuthImagesPattern';
+import useAuthStore from '@/store/useAuth';
+import toast from 'react-hot-toast';
 
 const Signup = () => {
   const navigate = useNavigate();
+  const { signup , isSigningUp , error , resetError   } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
-  const [isSigningUp, setIsSigningUp] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
-  const [error, setError] = useState('');
 
+  const [localError, setLocalError] = useState('');
+
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
   const handleSubmit  = async (e) => {
     e.preventDefault();
 
     if (!formData.name || !formData.email || !formData.password) {
-      return setError('All fields are required');
+      return setLocalError('All fields are required');
     }
-    
-    setIsSigningUp(true);
+    if (!validateEmail(formData.email)) {
+      return setLocalError('Please enter a valid email address'); 
+    }
+ 
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/signup', formData);
-       console.log(res.data)
-      const { token } = res.data;
-      localStorage.setItem('token', token);
+await signup(formData)
       navigate('/');
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.message || 'Signup failed');
-    } finally {
-      setIsSigningUp(false);
-    }
+    } 
     
   };
+  if(localError)  toast.error(localError)
 
   return <div className="min-h-screen grid lg:grid-cols-2">
   {/* left side */}
-  <div className="flex flex-col justify-center items-center p-6 sm:p-12">
+  <div className="flex flex-col justify-top items-center p-6 sm:p-12">
     <div className="w-full max-w-md space-y-8">
       {/* LOGO */}
       <div className="text-center mb-8">
@@ -59,8 +62,6 @@ const Signup = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-      {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-
         <div className="form-control">
           <label className="label">
             <span className="label-text font-medium">Full Name</span>

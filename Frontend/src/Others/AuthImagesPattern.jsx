@@ -1,3 +1,4 @@
+import GradientText from "@/components/ui/ReactBIt/GradientText";
 import React from "react";
 
   
@@ -15,19 +16,19 @@ const AuthImagePattern = ({ title, subtitle }) => {
       ];
 
     return (
-      <div className="hidden lg:flex items-center justify-center bg-base-200 p-12">
+      <div className="hidden lg:flex items-top justify-center bg-base-200 px-12 pt-5">
         <div className="max-w-md text-center">
           {/* Game of Cards Grid */}
-          <div className="grid grid-cols-3 gap-4 mb-8 " style={{ perspective: "1000px" }}>
+          <div className="grid grid-cols-3 gap-2 mb-5 " style={{ perspective: "1000px" }}>
             {cardImages.map((url, i) => (
               <div
                 key={i}
-                className="relative w-full aspect-square group cursor-pointer"
+                className="relative w-full  aspect-square group cursor-pointer"
               >
-                <div className="absolute inset-0 rounded-2xl transition-transform  duration-700 transform group-hover:rotate-y-180 [transform-style:preserve-3d]">
+                <div className="absolute  inset-0 rounded-2xl transition-transform  duration-700 transform group-hover:rotate-y-180 [transform-style:preserve-3d]">
                   {/* Front Face */}
-                  <div className="absolute inset-0 bg-primary/10 rounded-2xl flex items-center justify-center backface-hidden animate-pulse">
-                 {url=== "https://i.pinimg.com/736x/78/bd/a9/78bda9dec03e19a7e0e209f892b7db13.jpg" ? <img className="w-full h-full object-cover opacity-80" src={url} alt={`random-card-${i}`} /> :""}
+                  <div className="absolute inset-0 bg-slate-800 rounded-2xl flex items-center justify-center  animate-pulse">
+                 {url=== "https://i.pinimg.com/736x/78/bd/a9/78bda9dec03e19a7e0e209f892b7db13.jpg" ? <img className="w-full h-full object-cover rounded-2xl opacity-80" src={url} alt={`random-card-${i}`} /> :""}
                   </div>
                   {/* Back Face */}
                   <div className={`absolute inset-0 bg-gray-200 text-white rounded-2xl flex items-center justify-center  overflow-hidden backface-hidden 
@@ -41,8 +42,18 @@ const AuthImagePattern = ({ title, subtitle }) => {
           </div>
   
           {/* Title & Subtitle */}
-          <h2 className="text-2xl font-bold mb-4">{title}</h2>
+          {/* <h2 className="text-2xl font-bold mb-2">{title}</h2> */}
+          <GradientText
+          
+          colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
+          animationSpeed={3}
+          showBorder={false}
+          className="text-2xl font-bold mb-2"
+        >
+        {title}
+        </GradientText>
           <p className="text-base-content/60">{subtitle}</p>
+         
         </div>
       </div>
     );
