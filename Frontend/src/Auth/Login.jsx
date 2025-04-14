@@ -14,10 +14,6 @@ const Login = () => {
   });
   const [localError, setLocalError] = useState('');
 
-  const validateEmail = (email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
-
   const validateForm = () => {
   
     if (!formData.email.trim()) return toast.error("Email is required");

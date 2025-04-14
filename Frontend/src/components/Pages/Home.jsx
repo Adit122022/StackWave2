@@ -17,8 +17,7 @@ import {
 import { Loader2 } from 'lucide-react';
 import SearchBar from '@/Others/SearchBar';
 import useSearchStore from '@/store/useSearch';
-import RotatingText from '../ui/ReactBIt/Rotatedtext';
-import Particles from '../ui/ReactBIt/Particles';
+
 
 const Home = () => {
   const {
@@ -50,23 +49,23 @@ const Home = () => {
   };
 
   return (
-    <div className="p-6 max-w-5xl mx-auto overflow-y-auto w-full z-[99] h-screen  relative">
+    <div className="p-6 max-w-5xl mx-auto overflow-y-auto w-full z-[98] h-screen  relative">
         <h1 className="text-2xl font-bold mb-5 text-center">All Questions</h1>
       <div className="md:flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
-          <div className='w-1/2 flex'>
+          <div className='w-1/2 flex gap-5'>
           <Select onValueChange={handleSort} defaultValue="latest">
             <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-red-400  relative z-[99]">
               <SelectItem value="latest">Sort by Latest</SelectItem>
               <SelectItem value="a-z">Sort A-Z</SelectItem>
               <SelectItem value="answers">Sort by Answers</SelectItem>
             </SelectContent>
           </Select>
           <Button asChild>
-            <Link className='px-5 py-2  text-sm' to="/ask">Ask Question</Link>
+            <Link className='px-5 py-2 border  text-sm' to="/ask">Ask Question</Link>
           </Button>
           </div>
         </div>

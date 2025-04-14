@@ -8,10 +8,12 @@ const useAuthStore = create(
     (set, get) => ({
       authUser: null,
       token: null,
+      user: null,
       isSigningUp: false,
       isLoggingIn: false,
       isUpdatingProfile: false,
       isCheckingAuth: false,
+      isLoadingUser: false,
       error: null,
 
       // Check if user is authenticated
@@ -35,16 +37,14 @@ const useAuthStore = create(
         try {
           const response = await axiosInstance.post('/auth/signup', data);
           const { user, token } = response.data;
-          console.log(response.data)
           set({ authUser: user, token, isSigningUp: false });
-          localStorage.setItem('token', token); // Sync with localStorage
+          localStorage.setItem('token', token);
           toast.success('Account created successfully');
           return user;
         } catch (error) {
           const message = error.response?.data?.message || 'Signup failed';
           set({ error: message, isSigningUp: false });
-         return toast.error(message);
-          
+          return toast.error(message);
         }
       },
 
@@ -55,23 +55,21 @@ const useAuthStore = create(
           const response = await axiosInstance.post('/auth/login', data);
           const { user, token } = response.data;
           set({ authUser: user, token, isLoggingIn: false });
-          localStorage.setItem('token', token); // Sync with localStorage
+          localStorage.setItem('token', token);
           toast.success('Logged in successfully');
           return user;
         } catch (error) {
           const message = error.response?.data?.message || 'Login failed';
           set({ error: message, isLoggingIn: false });
           toast.error(message);
-          
         }
       },
 
-     
-   // Update user profile
+      // Update user profile
       updateProfile: async (data) => {
         set({ isUpdatingProfile: true, error: null });
         try {
-          const response = await axiosInstance.put('/auth/update-profile', data);
+          const response = await axiosInstance.put('/auth/users/profile', data);
           set({ authUser: response.data.user, isUpdatingProfile: false });
           toast.success('Profile updated successfully');
           return response.data.user;
@@ -82,14 +80,57 @@ const useAuthStore = create(
           throw error;
         }
       },
-      // Reset error state
-      resetError: () => set({ error: null }),
+
+      // Submit an answer to a question
+      answerQuestion: async (answerText, questionId) => {
+        try {
+          const response = await axiosInstance.post(
+            `/answers/${questionId}`,
+            { content: answerText },
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+            }
+          );
+          toast.success('Answer submitted successfully');
+          return response.data;
+        } catch (error) {
+          const message = error.response?.data?.message || 'Failed to submit answer';
+          toast.error(message);
+          throw error;
+        }
+      },
+
+      // Fetch one question
+      questionOne: async (id) => {
+        try {
+          const res = await axiosInstance.get(`/questions/${id}`);
+          return res.data;
+        } catch (err) {
+          console.error("Failed to fetch question:", err);
+          throw err;
+        }
+      },
+
+      // Fetch user profile
+      fetchUserStore: async () => {
+        set({ isLoadingUser: true, error: null });
+        try {
+          const res = await axiosInstance.get('/users/profile', {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
+          set({ user: res.data, isLoadingUser: false });
+          return res.data;
+        } catch (err) {
+          console.error(err);
+          set({ error: 'Failed to fetch user data', isLoadingUser: false });
+        }
+      },
     }),
-    {
-      name: 'auth-storage',
-      storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({ authUser: state.authUser, token: state.token }), // Persist only user and token
-    }
+  
   )
 );
 

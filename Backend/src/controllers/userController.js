@@ -20,7 +20,7 @@ const updateUserProfile = async (req, res) => {
 
         user.name = req.body.name || user.name;
         user.bio = req.body.bio || user.bio;
-        user.avatar = req.body.avatar || user.avatar;
+        // user.avatar = req.body.avatar || user.avatar;
 
         await user.save();
 
@@ -28,7 +28,7 @@ const updateUserProfile = async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            avatar: user.avatar,
+            // avatar: user.avatar,
             bio: user.bio,
             reputation: user.reputation,
         });

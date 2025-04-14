@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import useAuthStore from '@/store/useAuth';
 
 const Profile = () => {
   const [user, setUser] = useState({});
   const [Loading, setLoading] = useState(true);
   const [Error, setError] = useState('');
+  const { fetchUserStore } = useAuthStore();
+
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/users/profile', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-      setUser(res.data);
+     const data =await fetchUserStore()
+      setUser(data);
+      console.log(data)
       setLoading(false);
     } catch (err) {
       console.error(err);
@@ -30,7 +30,7 @@ const Profile = () => {
   if (Error) return <div className="p-4 text-red-600">{Error}</div>;
 
   return (
-    <div className="max-w-5xl mx-auto p-4">
+    <div className="max-w-5xl mx-auto p-4 relative z-10">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
         <div className="flex items-center gap-4">
           <div className="w-20 h-20 rounded-md overflow-hidden bg-gray-200 flex items-center justify-center text-2xl font-bold">
@@ -48,9 +48,6 @@ const Profile = () => {
         <div className="flex gap-2 mt-4 sm:mt-0">
           <button className="border text-sm px-3 py-1 rounded hover:shadow">
             Edit profile
-          </button>
-          <button className="border text-sm px-3 py-1 rounded hover:shadow">
-            Network profile
           </button>
         </div>
       </div>
