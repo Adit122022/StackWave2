@@ -40,10 +40,10 @@ const AskQuestion = () => {
   };
 
   return (
-    <div className="w-full mx-auto p-6 bg-gray-800/50 relative z-[99] h-[80vh] overflow-y-auto">
+    <div className="w-full mx-auto p-6 pt-5 pb-20 bg-gray-800/50 relative z-10 h-screen overflow-y-auto">
       <h1 className="text-2xl font-bold mb-6">Ask a public question</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6 my-20">
         {error && <div className="text-red-600">{error}</div>}
 
         {/* Title */}
@@ -68,7 +68,7 @@ const AskQuestion = () => {
           <label className="block font-semibold mb-1">
             Body <span className="text-red-600">*</span>
           </label>
-          <p className="text-sm text-gray-500 mb-1">
+          <p className="text-sm text-gray-500 mb-">
             Include all the information someone would need to answer your question
           </p>
           <textarea
@@ -77,9 +77,7 @@ const AskQuestion = () => {
             value={body}
             onChange={(e) => setBody(e.target.value)}
           />
-          <div className="text-sm text-gray-500 mt-2 border-t pt-2">
-            Use <code>`code`</code>, <strong>**bold**</strong>, <em>*italic*</em> to format. Use <code>&gt;quote</code> for quotes.
-          </div>
+         
         </div>
 
         {/* Tags */}

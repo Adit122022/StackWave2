@@ -69,7 +69,11 @@ const useAuthStore = create(
       updateProfile: async (data) => {
         set({ isUpdatingProfile: true, error: null });
         try {
-          const response = await axiosInstance.put('/auth/users/profile', data);
+          const response = await axiosInstance.put('/users/profile', data, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
           set({ authUser: response.data.user, isUpdatingProfile: false });
           toast.success('Profile updated successfully');
           return response.data.user;
@@ -80,7 +84,7 @@ const useAuthStore = create(
           throw error;
         }
       },
-
+      
       // Submit an answer to a question
       answerQuestion: async (answerText, questionId) => {
         try {

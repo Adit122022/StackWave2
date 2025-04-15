@@ -75,7 +75,7 @@ const AppRoute = () => {
      </div>
          </ProtectedRoute>} />
     <Route path="/ask" element={<ProtectedRoute> 
-      <div className="flex bg-accent-foreground  relative overflow-x-hidden overflow-y-scroll">
+      <div className="flex bg-accent-foreground  relative ">
      <SideBarPart className='bg-accent-foreground'/>
      <AskQuestion/> 
      <div className='w-screen h-full absolute top-0 left-0' >

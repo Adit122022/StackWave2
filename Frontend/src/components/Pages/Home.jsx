@@ -58,7 +58,7 @@ const Home = () => {
             <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
-            <SelectContent className="bg-red-400  relative z-[99]">
+            <SelectContent className="bg-gray-400  relative z-[99]">
               <SelectItem value="latest">Sort by Latest</SelectItem>
               <SelectItem value="a-z">Sort A-Z</SelectItem>
               <SelectItem value="answers">Sort by Answers</SelectItem>
@@ -91,24 +91,34 @@ const Home = () => {
       ) : (
         <div className="space-y-4">
           {filteredQuestions.map((q) => (
-            <Card key={q._id} className="hover:!bg-slate-200/30 !bg-slate-300/30 transition-colors">
-              <CardHeader>
-                <CardTitle>
-                  <Link to={`/questions/${q._id}`} className="text-primary hover:underline font-bold uppercase">
-                    {q.title}
-                  </Link>
-                  <span>{console.log(q.answers)} </span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground line-clamp-2">{q.body}</p>
-                <div className="flex items-center justify-between mt-3 text-xs text-muted-foreground">
-                  <span>Asked by {q.authorId?.name || 'Anonymous'}</span>
-                  <span>{new Date(q.createdAt).toLocaleDateString()}</span>
-                  <span>{q.answers?.length || 0} Answers</span>
-                </div>
-              </CardContent>
-            </Card>
+          <Card
+          key={q._id}
+          className="bg-[#1a1a1a]/80 backdrop-blur-sm border border-gray-700 hover:bg-[#1f1f1f]/90 transition duration-300 shadow-md hover:shadow-lg"
+        >
+          <CardHeader>
+            <CardTitle>
+              <Link
+                to={`/questions/${q._id}`}
+                className="text-white hover:underline font-bold uppercase"
+              >
+                {q.title}
+              </Link>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-300 line-clamp-2">{q.body}</p>
+            <div className="flex items-center justify-between mt-3 text-xs text-gray-400">
+              <span className='flex justify-center items-center gap-2' >Asked by 
+             
+                <h2 className='uppercase text-cyan-400'>{q.authorId?.name || 'Anonymous'}</h2>
+              </span>
+              <span>{new Date(q.createdAt).toLocaleDateString()}</span>
+              <span>{q.answers?.length || 0} Answers</span>
+            </div>
+          </CardContent>
+        </Card>
+        
+        
           ))}
         </div>
       )}
