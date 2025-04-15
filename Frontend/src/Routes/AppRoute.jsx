@@ -12,7 +12,7 @@ import { SideBarPart } from '@/components/ui/SideBarPart';
 import TopBar from '@/components/TopBar';
 import Particles from '@/components/ui/ReactBIt/Particles';
 import Tag from '@/components/Pages/Tag';
-import Reputation from '@/components/Pages/Reputation';
+import TagQuestions from '@/components/Pages/TagQuestions';
 
 const AppRoute = () => {
   return (
@@ -112,8 +112,10 @@ const AppRoute = () => {
 </div>
      </div>
        </ProtectedRoute>} />
-  
+  <Route path="/tags/:tagName" element={<TagQuestions />} />
   </Routes>
+
+
    </BrowserRouter>
   )
 }
