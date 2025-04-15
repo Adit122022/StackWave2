@@ -15,6 +15,9 @@ const useAuthStore = create(
       isCheckingAuth: false,
       isLoadingUser: false,
       error: null,
+      tags: [],
+  isLoadingTags: false,
+  tagError: null,
 
       // Check if user is authenticated
       checkAuth: async () => {
@@ -131,6 +134,22 @@ const useAuthStore = create(
         } catch (err) {
           console.error(err);
           set({ error: 'Failed to fetch user data', isLoadingUser: false });
+        }
+      },
+
+      getTags: async () => {
+        set({ isLoadingTags: true, tagError: null });
+    
+        try {
+          const response = await axiosInstance.get("/tags");
+          set({ tags: response.data.tags }); // assuming your API returns { tags: [...] }
+        } catch (error) {
+          set({
+            tagError: error.response?.data?.message || "Failed to fetch tags",
+            tags: [],
+          });
+        } finally {
+          set({ isLoadingTags: false });
         }
       },
     }),
