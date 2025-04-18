@@ -1,138 +1,88 @@
 import {
-  ChartBarIcon,
-  FileQuestion,
   Home,
-  MessageCircle,
-  Tag,
   User,
-  Menu as MenuIcon,
+  FileQuestion,
+  Tag,
+  ChartBarIcon,
+  MessageCircle,
   LogOut,
+  Menu as MenuIcon,
 } from 'lucide-react';
-import React, { useState } from 'react';
-import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
+import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 export const SideBarPart = () => {
-  const [isCollapsed, setIsCollapsed] = useState(true);
-
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
- 
 
   const handleLogout = () => {
-   try {
-    localStorage.removeItem('token');
-    navigate('/login');
-    window.location.reload(); 
-    return toast.success('Logged out successfully');
-
-   } catch (error) {
-   return toast.error(error.message || "LogOut Failed");
-   }
+    try {
+      localStorage.removeItem('token');
+      navigate('/login');
+      window.location.reload();
+      toast.success('Logged out successfully');
+    } catch (error) {
+      toast.error(error.message || 'Logout Failed');
+    }
   };
+
+  const links = [
+    { to: '/', label: 'Home', icon: <Home size={20} /> },
+    { to: '/profile', label: 'Profile', icon: <User size={20} /> },
+    { to: '/question', label: 'Question', icon: <FileQuestion size={20} /> },
+    { to: '/tags', label: 'Tags', icon: <Tag size={20} /> },
+    { to: '/discussion', label: 'Discussion', icon: <ChartBarIcon size={20} /> },
+    { to: '/chat', label: 'Chat', icon: <MessageCircle size={20} /> },
+    { to: '/users', label: 'Users', icon: <User size={20} /> },
+  ];
 
   return (
     <>
-      {/* Hamburger Menu for small screens */}
+      {/* Hamburger Button */}
       <button
-        className="lg:hidden p-4 z-50 top-0 left-0 h-fit"
-        onClick={() => setIsCollapsed(!isCollapsed)}
+        className="lg:hidden fixed top-4 left-4 z-50 p-2  dark:bg-gray-800 rounded-md shadow"
+        onClick={() => setIsOpen(!isOpen)}
       >
         <MenuIcon />
       </button>
 
       {/* Sidebar */}
-      <div
-        className={`fixed top-0 left-0 h-screen  transition-transform duration-300 ${
-          isCollapsed ? '-translate-x-full' : 'translate-x-0'
+      <aside
+        className={`fixed top-0 left-0 z-40 h-screen w-64   shadow-lg transform transition-transform duration-300 ease-in-out ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
         } lg:translate-x-0 lg:static`}
       >
-        <Sidebar className="h-full  shadow-md">
-          <Menu
-            className="pt-10 h-full w-full  !bg-accent-foreground"
-            menuItemStyles={{
-              button: ({ active }) => ({
-                color: active ? '#00be85' : '#94a3b8',
-                padding: '12px 16px',
-                margin: '4px 8px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-              }),
+        <nav className="flex flex-col h-full p-4 space-y-2">
+
+          {links.map(({ to, label, icon }) => (
+            <NavLink
+              key={to}
+              to={to}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-4 py-2 rounded-md transition hover:bg-emerald-100  hover:text-black ${
+                  isActive ? 'bg-emerald-200 text-black dark:bg-emerald-700' : 'text-gray-600 dark:text-gray-300'
+                }`
+              }
+              onClick={() => setIsOpen(false)}
+            >
+              {icon}
+              {label}
+            </NavLink>
+          ))}
+
+          <button
+            onClick={() => {
+              handleLogout();
+              setIsOpen(false);
             }}
+            className="flex items-center gap-3 px-4 py-2 rounded-md text-red-600 hover:bg-red-100 dark:hover:bg-red-800 dark:text-red-400 transition mt-auto"
           >
-            <MenuItem
-              component={<NavLink to="/" />}
-              icon={<Home size={20} />}
-              className="hover:bg-emerald-300 hover:text-black"
-            >
-              Home
-            </MenuItem>
-
-            <MenuItem
-              component={<NavLink to="/profile" />}
-              icon={<User size={20} />}
-              className="hover:bg-emerald-300 hover:text-black"
-            >
-              Profile
-            </MenuItem>
-
-            <MenuItem
-              component={<NavLink to="/question" />}
-              icon={<FileQuestion size={20} />}
-              className="hover:bg-emerald-300 hover:text-black"
-            >
-              Question
-            </MenuItem>
-
-            <MenuItem
-              component={<NavLink to="/tags" />}
-              icon={<Tag size={20} />}
-              className="hover:bg-emerald-300 hover:text-black"
-            >
-              Tags
-            </MenuItem>
-
-            <MenuItem
-              component={<NavLink to="/discussion" />}
-              icon={<ChartBarIcon size={20} />}
-              className="hover:bg-emerald-300 hover:text-black"
-            >
-              Discussion
-            </MenuItem>
-
-            <MenuItem
-              component={<NavLink to="/chat" />}
-              icon={<MessageCircle size={20} />}
-              className="hover:bg-emerald-300 hover:text-black"
-            >
-              Chat
-            </MenuItem>
-
-            <MenuItem
-              component={<NavLink to="/users" />}
-              icon={<User size={20} />}
-              className="hover:bg-emerald-100 hover:text-black"
-            >
-              Users
-            </MenuItem>
-
-            <MenuItem
-             component={<NavLink to="/" />}
-             icon={ <LogOut className="size-5" />}
-             className="hover:bg-emerald-100 hover:text-black">
-            <button
-                onClick={() => {
-                  handleLogout();
-                  setIsMobileMenuOpen(false);
-                }}
-              >
-               
-                Logout
-              </button>
-            </MenuItem>
-          </Menu>
-        </Sidebar>
-      </div>
+            <LogOut size={20} />
+            Logout
+          </button>
+        </nav>
+      </aside>
     </>
   );
 };

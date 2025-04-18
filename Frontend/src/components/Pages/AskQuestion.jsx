@@ -40,71 +40,71 @@ const AskQuestion = () => {
   };
 
   return (
-    <div className="w-full mx-auto p-6 pt-5 pb-20 bg-gray-800/50 relative z-10 h-screen overflow-y-auto">
-      <h1 className="text-2xl font-bold mb-6">Ask a public question</h1>
-
-      <form onSubmit={handleSubmit} className="space-y-6 my-20">
-        {error && <div className="text-red-600">{error}</div>}
-
-        {/* Title */}
-        <div>
-          <label className="block font-semibold mb-1">
-            Title <span className="text-red-600">*</span>
-          </label>
-          <p className="text-sm text-gray-500 mb-1">
-            Be specific and imagine you're asking a question to another person.
-          </p>
-          <input
-            type="text"
-            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
-
-        {/* Body */}
-        <div>
-          <label className="block font-semibold mb-1">
-            Body <span className="text-red-600">*</span>
-          </label>
-          <p className="text-sm text-gray-500 mb-">
-            Include all the information someone would need to answer your question
-          </p>
-          <textarea
-            className="w-full border border-gray-300 p-3 rounded min-h-[200px] resize-y focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="Describe your problem in detail..."
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-          />
-         
-        </div>
-
-        {/* Tags */}
-        <div>
-          <label className="block font-semibold mb-1">
-            Tags <span className="text-red-600">*</span>
-          </label>
-          <p className="text-sm text-gray-500 mb-1">
-            Add up to 5 tags to describe what your question is about.
-          </p>
-          <input
-            type="text"
-            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="e.g. react, css, node.js"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
-        >
-          Submit Your Question
-        </button>
-      </form>
-    </div>
+    <div className="w-full mx-auto p-20 bg-transparent relative z-10 h-screen overflow-y-auto">
+    <h1 className="text-2xl font-bold mb-6 text-white">Ask a public question</h1>
+  
+    <form onSubmit={handleSubmit} className="space-y-6 my-20">
+      {error && <div className="text-red-600">{error}</div>}
+  
+      {/* Title */}
+      <div>
+        <label className="block font-semibold mb-1 text-white">
+          Title <span className="text-red-600">*</span>
+        </label>
+        <p className="text-sm text-gray-400 mb-1">
+          Be specific and imagine you're asking a question to another person.
+        </p>
+        <input
+          type="text"
+          className="w-full border border-gray-300 bg-gray-800 text-gray-200 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300"
+          placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </div>
+  
+      {/* Body */}
+      <div>
+        <label className="block font-semibold mb-1 text-white">
+          Body <span className="text-red-600">*</span>
+        </label>
+        <p className="text-sm text-gray-400 mb-1">
+          Include all the information someone would need to answer your question.
+        </p>
+        <textarea
+          className="w-full border border-gray-300 bg-gray-800 text-gray-200 p-3 rounded min-h-[200px] resize-y focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300"
+          placeholder="Describe your problem in detail..."
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+        />
+      </div>
+  
+      {/* Tags */}
+      <div>
+        <label className="block font-semibold mb-1 text-white">
+          Tags <span className="text-red-600">*</span>
+        </label>
+        <p className="text-sm text-gray-400 mb-1">
+          Add up to 5 tags to describe what your question is about.
+        </p>
+        <input
+          type="text"
+          className="w-full border border-gray-300 bg-gray-800 text-gray-200 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300"
+          placeholder="e.g. react, css, node.js"
+          value={tags}
+          onChange={(e) => setTags(e.target.value)}
+        />
+      </div>
+  
+      <button
+        type="submit"
+        className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition duration-300"
+      >
+        Submit Your Question
+      </button>
+    </form>
+  </div>
+  
   );
 };
 

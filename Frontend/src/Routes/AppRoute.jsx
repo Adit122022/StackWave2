@@ -4,15 +4,16 @@ import Signup from '../Auth/Signup';
 import Login from '../Auth/Login';
 import QuestionDetail from '../components/Question/QuestionDetails';
 import AskQuestion from '../components/Pages/AskQuestion';
-import Home from '../components/Pages/Home';
+import Home from '../components/Pages/Home.jsx';
 import Profile from '../components/Pages/Profile';
 import Tag from '../components/Pages/Tag';
 import TagQuestions from '../components/Pages/TagQuestions';
-
 import Navbar from '../components/Navbar';
 import TopBar from '@/components/TopBar';
 import ProtectedRoute from '../Others/ProtectedRoute';
 import DashboardLayout from '@/utils/DashboardLayout';
+import SettingsPage from '@/components/Pages/SettingsPage';
+import Questions from '../components/Pages/Questions';
 
 const AppRoute = () => {
   return (
@@ -25,6 +26,14 @@ const AppRoute = () => {
           element={
             <DashboardLayout>
               <Home />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/question"
+          element={
+            <DashboardLayout>
+              <Questions />
             </DashboardLayout>
           }
         />
@@ -84,6 +93,15 @@ const AppRoute = () => {
             </DashboardLayout>
           }
         />
+        <Route
+          path="/setings"
+          element={
+            <DashboardLayout>
+            <SettingsPage/>
+            </DashboardLayout>
+          }
+        />
+
       </Routes>
     </BrowserRouter>
   );

@@ -22,8 +22,8 @@ const Navbar = () => {
     <nav className="bg-primary/80 text-white px-4 sm:px-6 py-2 sticky top-0 z-50 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         {/* Brand */}
-        <Link to="/" className="font-bold text-2xl tracking-tight flex items-center gap-3">
-          <Slack className="text-emerald-400" />
+        <Link to="/setings" className="font-bold text-2xl tracking-tight flex items-center gap-3">
+          <Slack className="text-emerald-400"  />
           <GradientText
             colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
             animationSpeed={3}
