@@ -1,6 +1,6 @@
+import useAuthStore from "@/store/useAuth";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuthStore from "@/store/useAuth";
 
 const mockTagInfo = {
   javascript: {
@@ -31,15 +31,21 @@ const Tag = () => {
 
   useEffect(() => {
     getTags(); // fetch tags on mount
-  }, []);
+  }, [getTags]);
+
 
   const handleTagClick = (tagName) => {
     navigate(`/tags/${tagName}`);
   };
 
-  const filteredTags = tags.filter((tag) =>
-    tag.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // If tags are objects, use .name. If tags are strings, this is not necessary
+  const filteredTags = Array.isArray(tags)
+    ? tags.filter((tag) =>
+        typeof tag === "string"
+          ? tag.toLowerCase().includes(searchTerm.toLowerCase())
+          : tag.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
 
   if (isLoadingTags) return <p className="text-center text-gray-400">Loading tags...</p>;
   if (tagError) return <p className="text-center text-red-500">Error: {tagError}</p>;
@@ -62,7 +68,8 @@ const Tag = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredTags.length > 0 ? (
           filteredTags.map((tag, index) => {
-            const info = mockTagInfo[tag] || {
+            const tagName = typeof tag === "string" ? tag : tag.name;
+            const info = mockTagInfo[tagName] || {
               description: "No description available for this tag yet.",
               total: "???",
               today: Math.floor(Math.random() * 50),
@@ -72,11 +79,11 @@ const Tag = () => {
             return (
               <div
                 key={index}
-                onClick={() => handleTagClick(tag)}
+                onClick={() => handleTagClick(tagName)}
                 className="cursor-pointer border border-gray-300 rounded-lg p-6 hover:bg-gray-600 hover:shadow-lg transition-all duration-300"
               >
                 <span className="bg-gray-600 text-sm font-semibold px-2 py-1 rounded inline-block mb-2">
-                  #{tag}
+                  #{tagName}
                 </span>
                 <p className="text-gray-200 text-sm mb-3">
                   {info.description.length > 140

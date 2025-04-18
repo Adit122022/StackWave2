@@ -7,13 +7,14 @@ import AskQuestion from '../components/Pages/AskQuestion';
 import Home from '../components/Pages/Home.jsx';
 import Profile from '../components/Pages/Profile';
 import Tag from '../components/Pages/Tag';
-import TagQuestions from '../components/Pages/TagQuestions';
+import TagQuestions from '../components/Question/TagQuestions';
 import Navbar from '../components/Navbar';
 import TopBar from '@/components/TopBar';
 import ProtectedRoute from '../Others/ProtectedRoute';
 import DashboardLayout from '@/utils/DashboardLayout';
 import SettingsPage from '@/components/Pages/SettingsPage';
-import Questions from '../components/Pages/Questions';
+import Questions from '../components/Question/Questions';
+import Foooter from '@/components/Foooter';
 
 const AppRoute = () => {
   return (
@@ -101,8 +102,8 @@ const AppRoute = () => {
             </DashboardLayout>
           }
         />
-
       </Routes>
+  <Foooter/>
     </BrowserRouter>
   );
 };

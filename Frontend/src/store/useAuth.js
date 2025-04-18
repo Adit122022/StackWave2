@@ -18,6 +18,10 @@ const useAuthStore = create(
       tags: [],
   isLoadingTags: false,
   tagError: null,
+  questions: [],
+topQuestions: [],
+isLoadingQuestions: false,
+questionsError: null,
 
       // Check if user is authenticated
       checkAuth: async () => {
@@ -139,10 +143,14 @@ const useAuthStore = create(
 
       getTags: async () => {
         set({ isLoadingTags: true, tagError: null });
-    
+      
         try {
           const response = await axiosInstance.get("/tags");
-          set({ tags: response.data.tags }); // assuming your API returns { tags: [...] }
+          const normalizedTags = response.data.tags.map(tag => ({
+            ...tag,
+            name: tag.name.toLowerCase()
+          }));
+          set({ tags: normalizedTags });
         } catch (error) {
           set({
             tagError: error.response?.data?.message || "Failed to fetch tags",
@@ -152,6 +160,37 @@ const useAuthStore = create(
           set({ isLoadingTags: false });
         }
       },
+      
+      // Fetch all questions
+fetchQuestions: async () => {
+  set({ isLoadingQuestions: true, questionsError: null });
+  try {
+    const res = await axiosInstance.get("/questions");
+    set({ questions: res.data.questions, isLoadingQuestions: false });
+  } catch (error) {
+    set({
+      questionsError: error.response?.data?.message || "Failed to fetch questions",
+      questions: [],
+      isLoadingQuestions: false,
+    });
+  }
+},
+
+// Fetch latest/top questions (limit to latest 5 or so)
+fetchTopQuestions: async () => {
+  set({ isLoadingQuestions: true, questionsError: null });
+  try {
+    const res = await axiosInstance.get("/questions/top");
+    set({ topQuestions: res.data.questions, isLoadingQuestions: false });
+  } catch (error) {
+    set({
+      questionsError: error.response?.data?.message || "Failed to fetch top questions",
+      topQuestions: [],
+      isLoadingQuestions: false,
+    });
+  }
+},
+
     }),
   
   )

@@ -8,7 +8,7 @@ const router = express.Router();
 //  sare tags k liye
 router.get('/',  async (req, res) => {
     try {
-      // Use distinct to get unique tags
+ 
       const tags = await questionModel.distinct("tags");
       res.status(200).json({ tags });
     } catch (error) {
@@ -17,7 +17,7 @@ router.get('/',  async (req, res) => {
     }
   });
 
-// // In your questionRoutes.js
+
 router.get('/:tagName', async (req, res) => {
   const { tagName } = req.params;
   //  console.log( " Tag NAME received  --->  " , tagName)

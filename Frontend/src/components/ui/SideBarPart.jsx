@@ -6,14 +6,12 @@ import {
   ChartBarIcon,
   MessageCircle,
   LogOut,
-  Menu as MenuIcon,
 } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
 export const SideBarPart = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -38,51 +36,34 @@ export const SideBarPart = () => {
   ];
 
   return (
-    <>
-      {/* Hamburger Button */}
-      <button
-        className="lg:hidden fixed top-4 left-4 z-50 p-2  dark:bg-gray-800 rounded-md shadow"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <MenuIcon />
-      </button>
-
-      {/* Sidebar */}
-      <aside
-        className={`fixed top-0 left-0 z-40 h-screen w-64   shadow-lg transform transition-transform duration-300 ease-in-out ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        } lg:translate-x-0 lg:static`}
-      >
-        <nav className="flex flex-col h-full p-4 space-y-2">
-
-          {links.map(({ to, label, icon }) => (
-            <NavLink
-              key={to}
-              to={to}
-              className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-2 rounded-md transition hover:bg-emerald-100  hover:text-black ${
-                  isActive ? 'bg-emerald-200 text-black dark:bg-emerald-700' : 'text-gray-600 dark:text-gray-300'
-                }`
-              }
-              onClick={() => setIsOpen(false)}
-            >
-              {icon}
-              {label}
-            </NavLink>
-          ))}
-
-          <button
-            onClick={() => {
-              handleLogout();
-              setIsOpen(false);
-            }}
-            className="flex items-center gap-3 px-4 py-2 rounded-md text-red-600 hover:bg-red-100 dark:hover:bg-red-800 dark:text-red-400 transition mt-auto"
+  <div className='w-fit h-screen p-20 relative'>
+      <aside className="fixed top-0 pt-30 left-0 z-40 h-full w-64  bg-secondary/5 text-white shadow-lg">
+      <nav className="flex flex-col h-full p-4 space-y-2">
+        {links.map(({ to, label, icon }) => (
+          <NavLink
+            key={to}
+            to={to}
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-4 py-2 rounded-md transition hover:bg-primary hover:text-black ${
+                isActive ? 'bg-primary text-black' : 'text-gray-600 dark:text-gray-300'
+              }`
+            }
           >
-            <LogOut size={20} />
-            Logout
-          </button>
-        </nav>
-      </aside>
-    </>
+            {icon}
+            {/* Show label only on larger screens */}
+            <span className="hidden lg:inline">{label}</span>
+          </NavLink>
+        ))}
+
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 px-4 py-2 rounded-md text-red-600 hover:text-white hover:bg-red-100 dark:hover:bg-red-800 dark:text-red-400 transition mt-auto"
+        >
+          <LogOut size={20} />
+          <span className="hidden lg:inline">Logout</span>
+        </button>
+      </nav>
+    </aside>
+  </div>
   );
 };
