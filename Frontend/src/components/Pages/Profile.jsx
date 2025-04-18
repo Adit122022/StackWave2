@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useAuthStore from '@/store/useAuth';
 import UpdateUserProfile from './UpdateUserProfile';
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -154,15 +155,16 @@ const Profile = () => {
                 Questions ({user.questions?.length || 0})
               </h3>
               {user.questions?.length > 0 ? (
-                <ul className="space-y-3">
+                <ul className="space-y-3 ">
                   {user.questions.map((ques) => (
-                    <li
-                      key={ques._id}
-                      className="bg-gray-800 border border-gray-700 rounded-lg p-3 hover:bg-gray-700 transition"
+                    <Link   to={`/questions/${ques._id}`}
+                      key={ques._id} 
                     >
-                      <p className="text-sm text-gray-200 font-medium mb-1">{ques.title}</p>
-                      <p className="text-gray-300 text-sm line-clamp-2">{ques.content}</p>
-                    </li>
+                     <li  className="bg-gray-800 border border-gray-700 rounded-lg p-3 hover:bg-gray-700 transition mb-2">
+                     <p className="text-sm text-gray-200 font-medium mb-1">{ques.title}</p>
+                     <p className="text-gray-300 text-sm line-clamp-2">{ques.content}</p>
+                     </li>
+                    </Link>
                   ))}
                 </ul>
               ) : (

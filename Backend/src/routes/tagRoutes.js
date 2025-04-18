@@ -20,7 +20,7 @@ router.get('/',  async (req, res) => {
 // // In your questionRoutes.js
 router.get('/:tagName', async (req, res) => {
   const { tagName } = req.params;
-   console.log( " Tag NAME received  --->  " , tagName)
+  //  console.log( " Tag NAME received  --->  " , tagName)
   try {
     const questions = await questionModel.find({ tags: tagName }).populate("authorId");
     console.log(questions)

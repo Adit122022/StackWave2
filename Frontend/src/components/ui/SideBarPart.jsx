@@ -42,17 +42,16 @@ export const SideBarPart = () => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-screen z-40 transition-transform duration-300 ${
+        className={`fixed top-0 left-0 h-screen  transition-transform duration-300 ${
           isCollapsed ? '-translate-x-full' : 'translate-x-0'
         } lg:translate-x-0 lg:static`}
       >
-        <Sidebar className="h-full   shadow-md">
+        <Sidebar className="h-full  shadow-md">
           <Menu
             className="pt-10 h-full w-full  !bg-accent-foreground"
             menuItemStyles={{
               button: ({ active }) => ({
                 color: active ? '#00be85' : '#94a3b8',
-                backgroundColor: 'transparent',
                 padding: '12px 16px',
                 margin: '4px 8px',
                 display: 'flex',
