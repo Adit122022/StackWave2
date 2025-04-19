@@ -8,11 +8,13 @@ module.exports.Create = async (req, res) => {
         if (!title || !body) {
             return res.status(400).json({ message: 'Title and body are required' });
         }
-
+        const formattedTags = Array.isArray(tags)
+        ? tags.map(tag => tag.toLowerCase())
+        : [];
         const newQuestion = await questionModel.create({
             title,
             body,
-            tags,
+            tags:formattedTags ,
             authorId: req.user.id
         });
         res.status(201).json(newQuestion);

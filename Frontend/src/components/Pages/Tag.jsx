@@ -29,7 +29,7 @@ const Tag = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
-//  getTags()
+
 
 
   const handleTagClick = (tagName) => {
