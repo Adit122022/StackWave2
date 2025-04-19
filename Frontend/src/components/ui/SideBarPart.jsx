@@ -36,9 +36,9 @@ export const SideBarPart = () => {
   ];
 
   return (
-  <div className='w-fit h-screen p-20 relative'>
-      <aside className="fixed top-0 pt-30 left-0 z-40 h-full w-64  bg-secondary/5 text-white shadow-lg">
-      <nav className="flex flex-col h-full p-4 space-y-2">
+
+      <aside className=" fixed top-50 lg:w-64   text-white shadow-lg">
+      <nav className="flex flex-col h-full lg:p-4  space-y-2">
         {links.map(({ to, label, icon }) => (
           <NavLink
             key={to}
@@ -64,6 +64,5 @@ export const SideBarPart = () => {
         </button>
       </nav>
     </aside>
-  </div>
   );
 };

@@ -3,14 +3,18 @@ import Particles from '@/components/ui/ReactBIt/Particles';
 
 const DashboardLayout = ({ children }) => {
   return (
-    <div className="flex bg-accent-foreground relative min-h-screen overflow-hidden">
-      {/* Sidebar with a fixed width */}
-      <SideBarPart className="bg-secondary w-64" />
+    <div className="relative min-h-screen bg-accent-foreground flex flex-col lg:flex-row overflow-hidden">
+      {/* Sidebar */}
+      <div className="w-full lg:w-1/4 xl:w-1/5  z-10">
+        <SideBarPart />
+      </div>
 
       {/* Content area */}
-      <div className="flex-1 relative z-10">{children}</div>
+      <main className="flex-1 z-10 p-4">
+        {children}
+      </main>
 
-      {/* Background particles */}
+      {/* Background Particles */}
       <div className="w-screen h-full absolute top-0 left-0 pointer-events-none z-0">
         <Particles
           particleColors={['#ffffff', '#ffffff']}

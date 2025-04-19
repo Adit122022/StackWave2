@@ -12,7 +12,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="bg-base-100 text-white flex flex-col min-h-screen relative overflow-x-hidden">
+    <div className=" text-white flex flex-col min-h-screen relative overflow-x-hidden">
       {/* Animated Background Bubbles */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute w-[400px] h-[400px] bg-emerald-400 opacity-20 rounded-full blur-3xl -top-10 -left-10 animate-pulse"></div>

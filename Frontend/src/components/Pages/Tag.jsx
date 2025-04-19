@@ -29,9 +29,7 @@ const Tag = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getTags(); // fetch tags on mount
-  }, [getTags]);
+//  getTags()
 
 
   const handleTagClick = (tagName) => {

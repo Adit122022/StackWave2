@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const AskQuestion = () => {
   const [title, setTitle] = useState('');
@@ -31,20 +32,21 @@ const AskQuestion = () => {
           }
         }
       );
-      navigate('/')
+      navigate('/questions')
       // navigate(`/questions/${res.data._id}`);
     } catch (err) {
       console.error(err);
       setError('Failed to submit question. Please try again.');
     }
+    if(error) return toast.error(error)
   };
 
   return (
-    <div className="w-full mx-auto p-20 bg-transparent relative z-10 h-screen overflow-y-auto">
+    <div className="w-full mx-auto p-20 bg-transparent relative z-10 shadow-lg">
     <h1 className="text-2xl font-bold mb-6 text-white">Ask a public question</h1>
   
-    <form onSubmit={handleSubmit} className="space-y-6 my-20">
-      {error && <div className="text-red-600">{error}</div>}
+    <form onSubmit={handleSubmit} className="space-y-6 ">
+    {error && toast.error(error)}
   
       {/* Title */}
       <div>

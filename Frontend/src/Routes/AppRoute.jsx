@@ -15,6 +15,7 @@ import DashboardLayout from '@/utils/DashboardLayout';
 import SettingsPage from '@/components/Pages/SettingsPage';
 import Questions from '../components/Question/Questions';
 import Foooter from '@/components/Foooter';
+import Users from '@/components/Pages/Users';
 
 const AppRoute = () => {
   return (
@@ -99,6 +100,14 @@ const AppRoute = () => {
           element={
             <DashboardLayout>
             <SettingsPage/>
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <DashboardLayout>
+              <Users />
             </DashboardLayout>
           }
         />
