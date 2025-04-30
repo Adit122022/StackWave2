@@ -55,7 +55,7 @@ const AppRoute = () => {
         />
 
         <Route
-          path="/questions/:id"
+          path="/question/:id"
           element={
             <ProtectedRoute>
               <DashboardLayout>

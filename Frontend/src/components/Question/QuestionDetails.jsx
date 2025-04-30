@@ -14,7 +14,7 @@ const QuestionDetail = () => {
   const [newAnswer, setNewAnswer] = useState('');
   const [loading, setLoading] = useState(false);
 
-//    console.log(question)
+   console.log(question)
 
   const fetchQuestion = async () => {
     try {
@@ -38,7 +38,7 @@ const QuestionDetail = () => {
       
       await answerQuestion(newAnswer, id);
       setNewAnswer('');
-      fetchQuestion(); // refresh answers
+      fetchQuestion(); 
     } catch (err) {
       console.error(err);
     } finally {

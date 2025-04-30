@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
+import { persist } from "zustand/middleware";
 import { axiosInstance } from "../AXIOS/axios";
 import toast from "react-hot-toast";
 
@@ -67,8 +67,8 @@ const useAuthStore = create(
       try {
         const response = await axiosInstance.post("/auth/login", data);
         const { user, token } = response.data;
-        set({ authUser: user, token, isLoggingIn: false });
         localStorage.setItem("token", token);
+        set({ authUser: user, token, isLoggingIn: false });
         toast.success("Logged in successfully");
         return user;
       } catch (error) {
@@ -154,12 +154,9 @@ const useAuthStore = create(
 
       try {
         const response = await axiosInstance.get("/tags/");
-        const normalizedTags = response.data.tags.map((tag) => ({
-          ...tag,
-          name: tag.name.toLowerCase(),
-        }));
-        console.log(response.data);
-        set({ tags: normalizedTags });
+      
+      
+        set({ tags: response.data.tags });
       } catch (error) {
         set({
           tagError: error.response?.data?.message || "Failed to fetch tags",
@@ -190,8 +187,9 @@ const useAuthStore = create(
     fetchTopQuestions: async () => {
       set({ isLoadingQuestions: true, questionsError: null });
       try {
-        const res = await axiosInstance.get("/questions/top");
-        set({ topQuestions: res.data.questions, isLoadingQuestions: false });
+        const res = await axiosInstance.get("/questions/");
+        console.log(res.data)
+        set({ topQuestions: res.data, isLoadingQuestions: false });
       } catch (error) {
         set({
           questionsError:

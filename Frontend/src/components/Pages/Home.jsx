@@ -61,7 +61,7 @@ const Home = () => {
                     className="block bg-base-200 shadow p-4 rounded hover:bg-base-300 transition duration-200"
                   >
                     <h3 className="text-lg font-semibold">{q.title}</h3>
-                    <p className="text-sm text-gray-400">{q.content.slice(0, 100)}...</p>
+                    <p className="text-sm text-gray-400">{q.body.slice(0, 100)}...</p>
                   </Link>
                 </li>
               ))}

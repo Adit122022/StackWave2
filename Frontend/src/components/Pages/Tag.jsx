@@ -1,6 +1,6 @@
-import useAuthStore from "@/store/useAuth";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useAuthStore from "@/store/useAuth";
 
 const mockTagInfo = {
   javascript: {
@@ -21,7 +21,7 @@ const mockTagInfo = {
     today: 50,
     thisWeek: 302,
   },
-  // Add more mock descriptions here...
+  // Add more tags if needed
 };
 
 const Tag = () => {
@@ -29,27 +29,31 @@ const Tag = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
-
-
+  useEffect(() => {
+    getTags();
+  }, [getTags]);
 
   const handleTagClick = (tagName) => {
     navigate(`/tags/${tagName}`);
   };
 
-  // If tags are objects, use .name. If tags are strings, this is not necessary
   const filteredTags = Array.isArray(tags)
-    ? tags.filter((tag) =>
-        typeof tag === "string"
-          ? tag.toLowerCase().includes(searchTerm.toLowerCase())
-          : tag.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+    ? tags.filter((tag) => {
+        const tagName = typeof tag === "string" ? tag : tag?.name || "";
+        return tagName.toLowerCase().includes(searchTerm.toLowerCase());
+      })
     : [];
 
-  if (isLoadingTags) return <p className="text-center text-gray-400">Loading tags...</p>;
-  if (tagError) return <p className="text-center text-red-500">Error: {tagError}</p>;
+  if (isLoadingTags) {
+    return <p className="text-center text-gray-400">Loading tags...</p>;
+  }
+
+  if (tagError) {
+    return <p className="text-center text-red-500">Error: {tagError}</p>;
+  }
 
   return (
-    <div className="px-12 py-10 min-h-screen text-white  relative z-10">
+    <div className="px-12 py-10 min-h-screen text-white relative z-10">
       <h1 className="text-3xl font-bold mb-4 text-center">Tags</h1>
       <p className="text-gray-300 w-1/2 mx-auto mb-6 text-center">
         A tag is a keyword or label that categorizes your question with other, similar questions. Using the right tags makes it easier for others to find and answer your question.
@@ -66,7 +70,7 @@ const Tag = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredTags.length > 0 ? (
           filteredTags.map((tag, index) => {
-            const tagName = typeof tag === "string" ? tag : tag.name;
+            const tagName = typeof tag === "string" ? tag : tag?.name || "unknown";
             const info = mockTagInfo[tagName] || {
               description: "No description available for this tag yet.",
               total: "???",
@@ -76,23 +80,19 @@ const Tag = () => {
 
             return (
               <div
-                key={index}
-                onClick={() => handleTagClick(tagName)}
-                className="cursor-pointer border border-gray-300 rounded-lg p-6 hover:bg-gray-600 hover:shadow-lg transition-all duration-300"
-              >
-                <span className="bg-gray-600 text-sm font-semibold px-2 py-1 rounded inline-block mb-2">
-                  #{tagName}
-                </span>
-                <p className="text-gray-200 text-sm mb-3">
-                  {info.description.length > 140
-                    ? info.description.slice(0, 140) + "..."
-                    : info.description}
-                </p>
-                <div className="text-xs text-gray-400 space-y-1">
-                  <p>{info.total} questions</p>
-                  <p>{info.today} asked today, {info.thisWeek} this week</p>
-                </div>
+              key={index}
+              onClick={() => handleTagClick(tagName)}
+               className="card bg-neutral text-neutral-content w-96">
+              <div className="card-body items-center text-center">
+                <h2 className="card-title"> #{tagName}</h2>
+                <p>   {info.description.length > 140
+                                  ? info.description + "..."
+                                  : info.description}</p>
+              
               </div>
+              </div>
+
+
             );
           })
         ) : (
