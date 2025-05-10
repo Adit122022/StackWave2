@@ -1,118 +1,124 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Signup from '../Auth/Signup';
-import Login from '../Auth/Login';
-import QuestionDetail from '../components/Question/QuestionDetails';
-import AskQuestion from '../components/Pages/AskQuestion';
-import Home from '../components/Pages/Home.jsx';
-import Profile from '../components/Pages/Profile';
-import Tag from '../components/Pages/Tag';
-import TagQuestions from '../components/Question/TagQuestions';
-import Navbar from '../components/Navbar';
-import TopBar from '@/components/TopBar';
 import ProtectedRoute from '../Others/ProtectedRoute';
 import DashboardLayout from '@/utils/DashboardLayout';
-import SettingsPage from '@/components/Pages/SettingsPage';
-import Questions from '../components/Question/Questions';
-import Foooter from '@/components/Foooter';
+
+// Auth Components
+import Signup from '../Auth/Signup';
+import Login from '../Auth/Login';
+
+// Page Components
+import Home from '../components/Pages/Home';
+import Profile from '../components/Pages/Profile';
+import Tag from '../components/Pages/Tag';
 import Users from '@/components/Pages/Users';
+import SettingsPage from '@/components/Pages/SettingsPage';
+import AskQuestion from '../components/Pages/AskQuestion';
+
+// Question Components
+import Questions from '../components/Question/Questions';
+import QuestionDetail from '../components/Question/QuestionDetails';
+import TagQuestions from '../components/Question/TagQuestions';
+
+// Layout Components
+import Navbar from '../components/Navbar';
+import TopBar from '@/components/TopBar';
+import Foooter from '@/components/Foooter';
+
+// Route configuration
+const routes = [
+  // Public routes
+  {
+    path: '/login',
+    element: <Login />,
+    isPublic: true
+  },
+  {
+    path: '/signup',
+    element: <Signup />,
+    isPublic: true
+  },
+
+  // Protected routes with dashboard layout
+  {
+    path: '/',
+    element: <Home />,
+    protected: true
+  },
+  {
+    path: '/question',
+    element: <Questions />,
+    protected: true
+  },
+  {
+    path: '/profile',
+    element: <Profile />,
+    protected: true
+  },
+  {
+    path: '/question/:id',
+    element: <QuestionDetail />,
+    protected: true
+  },
+  {
+    path: '/ask',
+    element: <AskQuestion />,
+    protected: true
+  },
+  {
+    path: '/tags',
+    element: <Tag />,
+    protected: true
+  },
+  {
+    path: '/tags/:tagName',
+    element: <TagQuestions />,
+    protected: false // Public but with layout
+  },
+  {
+    path: '/setings',
+    element: <SettingsPage />,
+    protected: true
+  },
+  {
+    path: '/users',
+    element: <Users />,
+    protected: true
+  }
+];
 
 const AppRoute = () => {
   return (
     <BrowserRouter>
-      <TopBar />
-      <Navbar />
+ 
+      
       <Routes>
-        <Route
-          path="/"
-          element={
-            <DashboardLayout>
-              <Home />
-            </DashboardLayout>
-          }
-        />
-        <Route
-          path="/question"
-          element={
-            <DashboardLayout>
-              <Questions />
-            </DashboardLayout>
-          }
-        />
-
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-
-        <Route
-          path="/profile"
-          element={
+        {routes.map((route, index) => {
+          const routeElement = route.protected ? (
             <ProtectedRoute>
               <DashboardLayout>
-                <Profile />
+                {route.element}
               </DashboardLayout>
             </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/question/:id"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <QuestionDetail />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/ask"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <AskQuestion />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/tags"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <Tag />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/tags/:tagName"
-          element={
+          ) : route.isPublic ? (
+            route.element
+          ) : (
             <DashboardLayout>
-              <TagQuestions />
+              {route.element}
             </DashboardLayout>
-          }
-        />
-        <Route
-          path="/setings"
-          element={
-            <DashboardLayout>
-            <SettingsPage/>
-            </DashboardLayout>
-          }
-        />
-        <Route
-          path="/users"
-          element={
-            <DashboardLayout>
-              <Users />
-            </DashboardLayout>
-          }
-        />
+          );
+
+          return (
+            <Route
+              key={index}
+              path={route.path}
+              element={routeElement}
+            />
+          );
+        })}
       </Routes>
-  <Foooter/>
+      
+      <Foooter />
     </BrowserRouter>
   );
 };

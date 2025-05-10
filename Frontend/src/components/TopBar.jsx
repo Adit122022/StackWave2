@@ -3,7 +3,7 @@ import RotatingText from './ui/ReactBIt/Rotatedtext'
 
 const TopBar = () => {
   return (
-    <div className=' overflow-hidden'>
+    <div className=' overflow-hidden fixed w-full top-16 z-10 transition-all'>
           <RotatingText
     texts={[
       "StackWave — Ask, Answer, Learn, and Grow Together Every Day.",
