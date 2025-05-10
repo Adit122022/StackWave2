@@ -15,6 +15,7 @@ const useAuthStore = create(
     isLoadingUser: false,
     error: null,
     tags: [],
+   users: [],
     isLoadingTags: false,
     tagError: null,
     questions: [],
@@ -43,6 +44,29 @@ const useAuthStore = create(
         set({ isCheckingAuth: false });
       }
     },
+
+   
+getAllUsers: async () => {
+  try {
+    const response = await axiosInstance.get("/auth/users");
+
+    set({
+      users: response.data || [],  // since your API directly returns an array
+      isLoadingUsers: false,
+    });
+
+    return response.data;
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.message ||
+      "Failed to fetch users";
+
+    toast.error(errorMessage);
+    set({ users: [], isLoadingUsers: false });
+  }
+},
+
+
 
     // Sign up a new user
     signup: async (data) => {
@@ -199,6 +223,8 @@ const useAuthStore = create(
         });
       }
     },
+
+
   }))
 );
 

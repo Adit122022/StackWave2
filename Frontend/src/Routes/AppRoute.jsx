@@ -21,8 +21,6 @@ import QuestionDetail from '../components/Question/QuestionDetails';
 import TagQuestions from '../components/Question/TagQuestions';
 
 // Layout Components
-import Navbar from '../components/Navbar';
-import TopBar from '@/components/TopBar';
 import Foooter from '@/components/Foooter';
 
 // Route configuration
