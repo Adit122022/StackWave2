@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Loader2, Lock, Mail, User } from 'lucide-react';
-import useAuthStore from '../store/useAuth';
+import useAuthStore from '../../store/useAuth';
 import AuthImagePattern from '../Others/AuthImagesPattern';
 
 const Login = () => {
@@ -37,9 +37,9 @@ const Login = () => {
 }
 
   return (
-    <div className=" grid lg:grid-cols-2 overflow-y-hidden   min-h-screen">
+    <div className=" grid lg:grid-cols-2  overflow-y-hidden   min-h-screen">
       {/* Left side */}
-      <div className="flex flex-col justify-top items-center p-6 sm:p-12">
+      <div className="flex  flex-col justify-center items-center  p-6 sm:p-12">
         <div className="w-full max-w-md space-y-8">
           {/* LOGO */}
           <div className="text-center mb-8">

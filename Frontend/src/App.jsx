@@ -1,8 +1,7 @@
 import React from 'react'
-import AppRoute from './Routes/AppRoute'
-import Navbar from './components/Navbar'
+import AppRoute from './components/Routes/AppRoute'
+
 import { useThemeStore } from './store/useThemeStore';
-import Foooter from './components/Foooter';
 
 const App = () => {
   const { theme } = useThemeStore();

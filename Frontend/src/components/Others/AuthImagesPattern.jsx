@@ -1,4 +1,3 @@
-import GradientText from "@/components/ui/ReactBIt/GradientText";
 import React from "react";
 
   
@@ -16,7 +15,7 @@ const AuthImagePattern = ({ title, subtitle }) => {
       ];
 
     return (
-      <div className="hidden lg:flex   items-top justify-center relative bg-base-200 px-12 pt-5">
+      <div className="hidden lg:flex   items-center justify-center relative bg-base-200 px-12 pt-5">
         <div className="max-w-md text-center">
           {/* Game of Cards Grid */}
           <div className="grid grid-cols-3 gap-2 " style={{ perspective: "1000px" }}>
@@ -40,15 +39,9 @@ const AuthImagePattern = ({ title, subtitle }) => {
               </div>
             ))}
           </div>
-          <GradientText
           
-          colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
-          animationSpeed={3}
-          showBorder={false}
-          className="text-2xl font-bold mb-2"
-        >
-        {title}
-        </GradientText>
+       <h1 className="text-4xl my-4 font-bold text-accent-content"> {title}</h1>
+        
           <p className="text-base-content/60">{subtitle}</p>
          
         </div>

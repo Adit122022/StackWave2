@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { axiosInstance } from "../AXIOS/axios";
+import { axiosInstance } from "../others/AXIOS/axios";
 import toast from "react-hot-toast";
 
 const useAuthStore = create(
