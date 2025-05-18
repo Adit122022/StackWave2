@@ -22,6 +22,7 @@ import TagQuestions from '../components/Question/TagQuestions';
 
 // Layout Components
 import Foooter from '@/components/Foooter';
+import Navbar from '@/components/Navbar';
 
 // Route configuration
 const routes = [
@@ -89,7 +90,9 @@ const AppRoute = () => {
   return (
     <BrowserRouter>
  
-      
+     <div className='relative '>
+       <Navbar/>
+     </div>
       <Routes>
         {routes.map((route, index) => {
           const routeElement = route.protected ? (

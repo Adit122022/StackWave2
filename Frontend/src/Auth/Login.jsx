@@ -37,7 +37,7 @@ const Login = () => {
 }
 
   return (
-    <div className="min-h-screen grid lg:grid-cols-2">
+    <div className=" grid lg:grid-cols-2 overflow-y-hidden   min-h-screen">
       {/* Left side */}
       <div className="flex flex-col justify-top items-center p-6 sm:p-12">
         <div className="w-full max-w-md space-y-8">

@@ -16,14 +16,14 @@ const AuthImagePattern = ({ title, subtitle }) => {
       ];
 
     return (
-      <div className="hidden lg:flex items-top justify-center bg-base-200 px-12 pt-5">
+      <div className="hidden lg:flex   items-top justify-center relative bg-base-200 px-12 pt-5">
         <div className="max-w-md text-center">
           {/* Game of Cards Grid */}
-          <div className="grid grid-cols-3 gap-2 mb-5 " style={{ perspective: "1000px" }}>
+          <div className="grid grid-cols-3 gap-2 " style={{ perspective: "1000px" }}>
             {cardImages.map((url, i) => (
               <div
                 key={i}
-                className="relative w-full  aspect-square group cursor-pointer"
+                className="relative w-full   aspect-square group cursor-pointer"
               >
                 <div className="absolute  inset-0 rounded-2xl transition-transform  duration-700 transform group-hover:rotate-y-180 [transform-style:preserve-3d]">
                   {/* Front Face */}
@@ -40,9 +40,6 @@ const AuthImagePattern = ({ title, subtitle }) => {
               </div>
             ))}
           </div>
-  
-          {/* Title & Subtitle */}
-          {/* <h2 className="text-2xl font-bold mb-2">{title}</h2> */}
           <GradientText
           
           colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
